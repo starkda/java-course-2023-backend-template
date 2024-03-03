@@ -1,7 +1,5 @@
 package edu.java.client;
 
-import edu.java.client.GithubRepositoryClient;
-import edu.java.client.StackOverflowClient;
 import edu.java.configuration.Github;
 import edu.java.configuration.Stackoverflow;
 import lombok.RequiredArgsConstructor;

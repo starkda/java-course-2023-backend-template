@@ -1,7 +1,7 @@
 package edu.java;
 
-import edu.java.configuration.ApplicationConfig;
 import edu.java.client.ClientFactory;
+import edu.java.configuration.ApplicationConfig;
 import edu.java.configuration.Github;
 import edu.java.configuration.Stackoverflow;
 import org.springframework.beans.factory.annotation.Autowired;
