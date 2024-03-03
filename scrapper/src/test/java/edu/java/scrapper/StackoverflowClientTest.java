@@ -1,9 +1,11 @@
 package edu.java.scrapper;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import edu.java.client.GithubRepositoryClient;
 import edu.java.configuration.ApplicationConfig;
-import edu.java.configuration.ClientFactory;
-import edu.java.configuration.StackOverflowClient;
+import edu.java.client.ClientFactory;
+import edu.java.configuration.Github;
+import edu.java.client.StackOverflowClient;
 import edu.java.configuration.Stackoverflow;
 import edu.java.dto.SiteUrl;
 import java.io.IOException;
@@ -21,9 +23,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @SpringBootTest(classes = {
-    edu.java.configuration.GithubRepositoryClient.class, edu.java.configuration.ApplicationConfig.class,
-    StackOverflowClient.class, ApplicationConfig.class, ClientFactory.class})
-@EnableConfigurationProperties(ApplicationConfig.class)
+    GithubRepositoryClient.class, edu.java.configuration.ApplicationConfig.class,
+    StackOverflowClient.class, ApplicationConfig.class, ClientFactory.class, Github.class, Stackoverflow.class})
+@EnableConfigurationProperties({ApplicationConfig.class, Github.class, Stackoverflow.class})
 public class StackoverflowClientTest {
 
     @Autowired
@@ -38,7 +40,7 @@ public class StackoverflowClientTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"src/test/resources/it/stackoverflowResponseBody"})
-    public void clientReturnsExpectedId(String path) throws IOException {
+    public void lastActivityDateTest(String path) throws IOException {
         String body = readBody(path);
         wm1.stubFor(get("/questions/66696828/answers?site=stackoverflow")
             .willReturn(aResponse()
@@ -46,10 +48,14 @@ public class StackoverflowClientTest {
                 .withHeader("Content-Type", "application/json")
                 .withBody(body)));
 
+        Stackoverflow stackoverflow = new Stackoverflow();
+        stackoverflow.setApi(wm1.baseUrl());
+        stackoverflow.setUrl(wm1.baseUrl());
+
         stackOverflowClient =
             (StackOverflowClient) applicationContext.getBean(
                 "getStackOverflowClient",
-                new Stackoverflow(wm1.baseUrl(), wm1.baseUrl())
+                stackoverflow
             );
 
         Assertions.assertThat(stackOverflowClient.fetchAnswersInfo(new SiteUrl(

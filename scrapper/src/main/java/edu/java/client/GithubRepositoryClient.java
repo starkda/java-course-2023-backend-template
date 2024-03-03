@@ -1,7 +1,8 @@
-package edu.java.configuration;
+package edu.java.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.java.configuration.Github;
 import edu.java.dto.GithubResponse;
 import edu.java.dto.SiteUrl;
 import edu.java.exceptions.MalformedUrlException;
@@ -16,8 +17,8 @@ public class GithubRepositoryClient {
     String baseApi;
 
     public GithubRepositoryClient(Github github) {
-        this.baseUrl = github.url;
-        this.baseApi = github.api;
+        this.baseUrl = github.getUrl();
+        this.baseApi = github.getApi();
         webClient = WebClient.builder().baseUrl(baseApi).build();
         mapper = new ObjectMapper();
     }
@@ -28,12 +29,12 @@ public class GithubRepositoryClient {
         }
         String url = siteUrl.url.substring(baseUrl.length());
 
-        String kek = webClient.get()
+        String jsonResponse = webClient.get()
             .uri(url)
             .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
             .block();
 
-        return mapper.readValue(kek, GithubResponse.class);
+        return mapper.readValue(jsonResponse, GithubResponse.class);
     }
 
 }

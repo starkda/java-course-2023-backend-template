@@ -1,7 +1,8 @@
-package edu.java.configuration;
+package edu.java.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.java.configuration.Stackoverflow;
 import edu.java.dto.Data;
 import edu.java.dto.SiteUrl;
 import edu.java.dto.StackoverflowResponse;
@@ -18,8 +19,8 @@ public class StackOverflowClient {
     String baseApi;
 
     StackOverflowClient(Stackoverflow stackoverflow) {
-        this.baseUrl = stackoverflow.url;
-        this.baseApi = stackoverflow.api;
+        this.baseUrl = stackoverflow.getUrl();
+        this.baseApi = stackoverflow.getApi();
         webClient = WebClient.builder().baseUrl(baseApi).build();
         mapper = new ObjectMapper();
     }

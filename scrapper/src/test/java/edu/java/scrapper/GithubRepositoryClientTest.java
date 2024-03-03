@@ -2,10 +2,11 @@ package edu.java.scrapper;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import edu.java.configuration.ApplicationConfig;
-import edu.java.configuration.ClientFactory;
+import edu.java.client.ClientFactory;
 import edu.java.configuration.Github;
-import edu.java.configuration.GithubRepositoryClient;
-import edu.java.configuration.StackOverflowClient;
+import edu.java.client.GithubRepositoryClient;
+import edu.java.client.StackOverflowClient;
+import edu.java.configuration.Stackoverflow;
 import edu.java.dto.SiteUrl;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,9 +25,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @SpringBootTest(classes = {
-    edu.java.configuration.GithubRepositoryClient.class, edu.java.configuration.ApplicationConfig.class,
+    GithubRepositoryClient.class, edu.java.configuration.ApplicationConfig.class, Github.class,
+    Stackoverflow.class,
     StackOverflowClient.class, ApplicationConfig.class, ClientFactory.class})
-@EnableConfigurationProperties(ApplicationConfig.class)
+@EnableConfigurationProperties({ApplicationConfig.class, Github.class, Stackoverflow.class})
 public class GithubRepositoryClientTest {
 
     @Autowired
@@ -49,10 +51,14 @@ public class GithubRepositoryClientTest {
                 .withHeader("Content-Type", "application/json")
                 .withBody(body)));
 
-        githubRepositoryClient =
+        Github github = new Github();
+        github.setApi(wm1.baseUrl());
+        github.setUrl(wm1.baseUrl());
+
+         githubRepositoryClient =
             (GithubRepositoryClient) applicationContext.getBean(
                 "getSimpleRepositoryClient",
-                new Github(wm1.baseUrl(), wm1.baseUrl())
+                github
             );
 
         WebClient webClient = WebClient.builder().baseUrl(wm1.baseUrl()).build();

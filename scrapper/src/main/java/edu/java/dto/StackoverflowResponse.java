@@ -15,5 +15,3 @@ public class StackoverflowResponse {
     @JsonProperty("last_activity_date")
     OffsetDateTime lastActivityDate;
 }
-
-

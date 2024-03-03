@@ -1,4 +1,10 @@
 app:
+  scheduler:
+    enable: true
+    interval: 10s
+    force-check-delay: 10s
+
+services:
   github:
     url: https://github.com
     api: https://api.github.com/repos

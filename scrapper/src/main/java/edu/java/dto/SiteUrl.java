@@ -2,14 +2,10 @@ package edu.java.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 @RequiredArgsConstructor
-@Data
+@Value
 public class SiteUrl {
-    final public String url;
-
-    @Override
-    public String toString() {
-        return url;
-    }
+    public String url;
 }

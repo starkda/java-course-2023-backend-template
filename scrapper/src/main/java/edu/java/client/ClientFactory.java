@@ -1,5 +1,9 @@
-package edu.java.configuration;
+package edu.java.client;
 
+import edu.java.client.GithubRepositoryClient;
+import edu.java.client.StackOverflowClient;
+import edu.java.configuration.Github;
+import edu.java.configuration.Stackoverflow;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -10,7 +14,8 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 @RequiredArgsConstructor
 public class ClientFactory {
-    @Autowired final ApplicationConfig applicationConfig;
+    @Autowired Github github;
+    @Autowired Stackoverflow stackoverflow;
 
     @Bean
     @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
@@ -21,18 +26,8 @@ public class ClientFactory {
     }
 
     @Bean
-    Github github() {
-        return applicationConfig.github;
-    }
-
-    @Bean
     @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
     public StackOverflowClient getStackOverflowClient(Stackoverflow stackoverflow) {
         return new StackOverflowClient(stackoverflow);
-    }
-
-    @Bean
-    Stackoverflow stackoverflow() {
-        return applicationConfig.stackoverflow;
     }
 }
