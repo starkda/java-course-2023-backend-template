@@ -40,6 +40,7 @@
         <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
         <git-commit-id-maven-plugin.version>7.0.0</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <openapi-generator-plugin.version>7.1.0</openapi-generator-plugin.version>
 
         <!-- Linters -->
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
@@ -210,6 +211,9 @@
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <skip>${skip.unit.tests}</skip>
+                        <systemPropertyVariables>
+                            <BOT_URL>http://localhost:8080</BOT_URL>
+                        </systemPropertyVariables>
                     </configuration>
                 </plugin>
                 <plugin>

@@ -1,0 +1,10 @@
+components:
+  schemas:
+    botPutUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          description: url that will be tracked
+      required:
+        - url

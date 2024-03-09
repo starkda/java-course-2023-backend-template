@@ -1,0 +1,19 @@
+components:
+  schemas:
+    scrapperPostUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          description: url that will be tracked
+      required:
+        - url
+
+    scrapperDeleteUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          description: url that will be tracked
+      required:
+        - url
