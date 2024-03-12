@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfig {
     public Scheduler scheduler;
+    public String botUrl;
 
-    @Setter static
-    class Scheduler {
+    @Setter
+    static class Scheduler {
         public boolean enable;
         public Duration interval;
         public Duration forceCheckDelay;

@@ -1,3 +1,5 @@
+package edu.java.bot;
+
 import edu.java.bot.exceptions.ResolvingException;
 import edu.java.bot.strategy.HelpCommandStrategy;
 import org.assertj.core.api.Assertions;

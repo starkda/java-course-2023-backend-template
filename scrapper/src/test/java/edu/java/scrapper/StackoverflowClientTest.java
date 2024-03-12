@@ -33,6 +33,9 @@ public class StackoverflowClientTest {
     @Autowired
     StackOverflowClient stackOverflowClient;
 
+    @Autowired
+    ApplicationConfig applicationConfig;
+
     @RegisterExtension
     static WireMockExtension wm1 = WireMockExtension.newInstance()
         .options(wireMockConfig().port(1112))

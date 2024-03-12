@@ -1,0 +1,14 @@
+components:
+  schemas:
+    scrapperPostUrl200:
+      type: object
+      properties:
+        scrapperResponse:
+          type: URI
+          description: response of scrapper
+    scrapperDeleteUrl200:
+        type: object
+        properties:
+          scrapperResponse:
+            type: URI
+            description: response of scrapper

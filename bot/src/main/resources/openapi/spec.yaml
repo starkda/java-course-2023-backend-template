@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: Bot api
+  description: Bot API
+  version: 1.0.0
+paths:
+  /url:
+    put:
+      summary: get update from site
+      responses:
+        200:
+          description: user was notified
+          content:
+            application/json:
+              schema:
+                $ref: 'responses.yaml#/components/schemas/botPutUrl200'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'requests.yaml#/components/schemas/botPutUrl'

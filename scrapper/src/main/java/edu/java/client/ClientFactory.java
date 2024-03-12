@@ -1,5 +1,6 @@
 package edu.java.client;
 
+import edu.java.configuration.ApplicationConfig;
 import edu.java.configuration.Github;
 import edu.java.configuration.Stackoverflow;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,11 @@ public class ClientFactory {
     @Autowired Github github;
     @Autowired Stackoverflow stackoverflow;
 
+    @Autowired ApplicationConfig applicationConfig;
+
     @Bean
     @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-    public GithubRepositoryClient getSimpleRepositoryClient(
-        Github github
-    ) {
+    public GithubRepositoryClient getSimpleRepositoryClient(Github github) {
         return new GithubRepositoryClient(github);
     }
 
@@ -27,5 +28,11 @@ public class ClientFactory {
     @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
     public StackOverflowClient getStackOverflowClient(Stackoverflow stackoverflow) {
         return new StackOverflowClient(stackoverflow);
+    }
+
+    @Bean
+    @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+    public BotClient getBotClient() {
+        return new BotClient(applicationConfig);
     }
 }

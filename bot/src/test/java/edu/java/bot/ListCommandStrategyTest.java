@@ -1,16 +1,19 @@
+package edu.java.bot;
+
+
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import edu.java.bot.service.ChatService;
 import edu.java.bot.exceptions.ResolvingException;
+import edu.java.bot.service.ChatService;
 import edu.java.bot.strategy.ListCommandStrategy;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.util.List;
 
 @SpringBootTest(classes = {edu.java.bot.strategy.ListCommandStrategy.class, edu.java.bot.service.ChatService.class,
     edu.java.bot.repository.ChatRepository.class})

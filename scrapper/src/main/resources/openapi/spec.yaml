@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Scrapper API
+  description: Scrapper API to get URLs
+  version: 1.0.0
+paths:
+  /url:
+    post:
+      summary: add new url to track
+      responses:
+        200:
+
+          description: url was added and now its tracked
+          content:
+            application/json:
+              schema:
+                $ref: 'responses.yaml#/components/schemas/scrapperPostUrl200'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'requests.yaml#/components/schemas/scrapperPostUrl'
+    delete:
+      summary: remove url, if it is tracked only by one user
+      responses:
+        200:
+          description: url was removed
+          content:
+            application/json:
+              schema:
+                $ref: 'responses.yaml#/components/schemas/scrapperDeleteUrl200'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'requests.yaml#/components/schemas/scrapperDeleteUrl'

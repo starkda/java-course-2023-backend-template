@@ -13,4 +13,6 @@ import org.springframework.validation.annotation.Validated;
 public class ApplicationConfig {
     @NotEmpty
     public String telegramToken;
+    @NotEmpty
+    public String scrapperUrl;
 }
