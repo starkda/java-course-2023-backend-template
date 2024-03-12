@@ -12,6 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <liquibase.version>4.26.0</liquibase.version>
+        <postgres.version>42.6.0</postgres.version>
         <maven.version>3.8.6</maven.version>
         <jdk.version>21</jdk.version>
         <java.release>21</java.release>
@@ -23,6 +25,7 @@
         <!-- Spring -->
         <spring-boot.version>3.2.2</spring-boot.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-jdbc.version>3.1.2</spring-jdbc.version>
 
         <!-- Other -->
         <jetbrains-annotations.version>24.1.0</jetbrains-annotations.version>
@@ -54,6 +57,27 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- Database -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${spring-jdbc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <scope>runtime</scope>
+                <version>${postgres.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <scope>test</scope>
+                <version>${liquibase.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.pengrad</groupId>
                 <artifactId>java-telegram-bot-api</artifactId>
