@@ -4,11 +4,14 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: bot
+      POSTGRES_DB: db
       POSTGRES_USER: kek
       POSTGRES_PASSWORD: kek
     networks:
       - backend
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+
   liquibase-migrations-bot:
     image: liquibase/liquibase:4.25
     depends_on:
@@ -16,7 +19,7 @@ services:
     command:
       - --changelog-file=master.xml
       - --driver=org.postgresql.Driver
-      - --url=jdbc:postgresql://postgresql:5432/bot
+      - --url=jdbc:postgresql://postgresql:5432/db?currentSchema=bot
       - --username=kek
       - --password=kek
       - update
@@ -24,9 +27,20 @@ services:
       - ./bot/migrations:/liquibase/changelog
     networks:
       - backend
-
-volumes:
-  postgresql: { }
-
+  liquibase-migrations-scrapper:
+    image: liquibase/liquibase:4.25
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/db?currentSchema=scrapper
+      - --username=kek
+      - --password=kek
+      - update
+    volumes:
+      - ./scrapper/migrations:/liquibase/changelog
+    networks:
+      - backend
 networks:
   backend: { }
