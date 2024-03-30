@@ -44,6 +44,9 @@ public abstract class IntegrationTest {
         throws LiquibaseException, SQLException, FileNotFoundException {
         Path path = new File(".").toPath().toAbsolutePath().getParent().resolve("migrations");
         java.sql.Connection connection = c.createConnection("");
+        connection.createStatement().executeUpdate("""
+            CREATE SCHEMA IF NOT EXISTS scrapper;
+            GRANT ALL PRIVILEGES ON SCHEMA scrapper TO postgres;""");
         Database database =
             DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
         Liquibase
@@ -57,4 +60,5 @@ public abstract class IntegrationTest {
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
     }
+
 }
