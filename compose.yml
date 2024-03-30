@@ -1,19 +1,46 @@
 services:
   postgresql:
-    image: postgres:16
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: scrapper
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgresql:/var/lib/postgresql/data
+      POSTGRES_DB: db
+      POSTGRES_USER: kek
+      POSTGRES_PASSWORD: kek
     networks:
       - backend
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
 
-volumes:
-  postgresql: { }
-
+  liquibase-migrations-bot:
+    image: liquibase/liquibase:4.25
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/db?currentSchema=bot
+      - --username=kek
+      - --password=kek
+      - update
+    volumes:
+      - ./bot/migrations:/liquibase/changelog
+    networks:
+      - backend
+  liquibase-migrations-scrapper:
+    image: liquibase/liquibase:4.25
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/db?currentSchema=scrapper
+      - --username=kek
+      - --password=kek
+      - update
+    volumes:
+      - ./scrapper/migrations:/liquibase/changelog
+    networks:
+      - backend
 networks:
   backend: { }
